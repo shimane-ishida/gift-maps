@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+    mysql:
+        build: ./docker/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=pass
+            - MYSQL_DATABASE=vl_develop
+        volumes:
+            - ./db:/usr/local/share/db
+            - db:/var/lib/mysql
+        ports:
+            - "3306:3306"
+    slim:
+        build: ./docker/apache-php
+        ports:
+            - 80:80
+        volumes:
+            - .:/var/www/html
+            - logs:/var/www/logs
+        depends_on:
+            - mysql
+        links:
+            - mysql
+volumes:
+    db:
+    logs:
+        driver: local
