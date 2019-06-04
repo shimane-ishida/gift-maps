@@ -1,0 +1,16 @@
+[
+  {
+    "title": "aaa",
+    "lat": "35.666666",
+    "lng": "123.888888",
+    "iconColor": "bule",
+    "contents":"<div>あああ</div>"
+  },
+  {
+    "title": "bbb",
+    "lat": "35.222222",
+    "lng": "123.111111",
+    "iconColor": "",
+    "contents":"<div>eee</div>"
+  }
+]
