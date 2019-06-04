@@ -52,7 +52,7 @@ export default {
             { 
               icon: L.divIcon( 
                 {
-                  className: this.inocColorValidation(e.iconColor),
+                  className: this.iconColorValidation(e.iconColor),
                   iconSize: [ 16, 16 ],
                   draggable:false,
                   title:e.title
@@ -71,7 +71,7 @@ export default {
       clearLayers: function(){
         this.markerLayer.clearLayers();
       },
-      inocColorValidation: function(strColor){
+      iconColorValidation: function(strColor){
         let resutlColor = "";
         switch (strColor){
           case 'red':
