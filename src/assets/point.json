@@ -1,16 +1,37 @@
 [
   {
     "title": "aaa",
-    "lat": "35.666666",
-    "lng": "123.888888",
+    "lat": "35.706581",
+    "lng": "139.734752",
     "iconColor": "bule",
     "contents":"<div>あああ</div>"
   },
   {
     "title": "bbb",
-    "lat": "35.222222",
-    "lng": "123.111111",
-    "iconColor": "",
-    "contents":"<div>eee</div>"
+    "lat": "35.365445",
+    "lng": "138.719946",
+    "iconColor": "red",
+    "contents":"<div>いいいい</div>"
+  },
+  {
+    "title": "cccc",
+    "lat": "36.565595",
+    "lng": "136.659660",
+    "iconColor": "red",
+    "contents":"<div>ううううう</div>"
+  },
+  {
+    "title": "bbb",
+    "lat": "40.822888",
+    "lng": "140.748256",
+    "iconColor": "red",
+    "contents":"<div>ええええ</div>"
+  },
+  {
+    "title": "bbb",
+    "lat": "37.919319",
+    "lng": "139.038838",
+    "iconColor": "red",
+    "contents":"<div>おおおお</div>"
   }
 ]
