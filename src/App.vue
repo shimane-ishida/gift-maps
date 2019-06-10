@@ -3,6 +3,11 @@
       <div class="header">
         <csvhead v-on:child-event="parentMethod"></csvhead>
         <jsonhead v-on:child-event="parentMethod"></jsonhead>
+        <div class="search-form">
+          <label for="search_box">名称検索：</label>
+          <input type="text" id="search_box" v-model="searchWord">
+          <input type="button" value="クリア" v-on:click="searchClear">
+        </div>
       </div>
       <div id=map></div>
     </div>
@@ -15,18 +20,28 @@ import jsonhead from './components/jsonhead'
 import  'leaflet/dist/leaflet.css'
 import  L from 'leaflet'
 import { log } from 'util';
+import Underscore from 'underscore'
 
 export default {
     data: function(){
       return {
         map: null,
         markerLayer:  L.featureGroup(),
-        latlng: null
+        latlng: null,
+        searchWord: '',
       }
     },
     mounted() {
         this.initMap();
         this.initLayer();
+    },
+    watch: {
+      searchWord: {
+        handler: function(){
+          this.findBy(this.searchWord);
+        },
+        deep: true
+      }
     },
     components: {
       csvhead,
@@ -46,15 +61,16 @@ export default {
         this.latlng = require('./assets/point.json');
         this.addLayer();
       },
-      addLayer: function(){
-        this.latlng.forEach(e => {
+      addLayer: function(data = this.latlng){
+        if(data.length === 0) return;
+        data.forEach(e => {
           let marker = L.marker([e.lat, e.lng],
             { 
               icon: L.divIcon( 
                 {
                   className: this.iconColorValidation(e.iconColor),
                   iconSize: [ 16, 16 ],
-                  draggable:false,
+                  draggable: false,
                   title:e.title
                 }
               ),
@@ -87,6 +103,17 @@ export default {
       },
       fitBounds: function(){
         this.map.fitBounds(this.markerLayer.getBounds());
+      },
+      findBy: function(query){
+        if(query === '') return;
+        const result = Underscore._.filter(this.latlng,{title:query});
+        this.clearLayers();
+        this.addLayer(result);
+      },
+      searchClear: function(){
+        this.searchWord = '';
+        this.clearLayers();
+        this.addLayer();
       }
     }
 }
@@ -128,4 +155,19 @@ body { margin: 0; }
   background      : blue;
 }
 
+.search-form {
+  float:left;
+  width:50vh;
+  margin: 0px 20px 20px 0px;
+  padding: 10px;
+  background: beige;
+  display: inline-flex;
+}
+.search-form > input[type="text"]{
+  padding: 3px;
+}
+
+.search-form > input[type="button"]{
+  margin-left: 5px;
+}
 </style>
