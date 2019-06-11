@@ -1,5 +1,5 @@
 <template>
-  <div class="_header">
+  <div class="file_head">
     <h1>CSVインポート</h1>
     <input @change="fileChange" type="file" id="file_input_expense" name="file_input_expense" accept="text/csv">
   </div>

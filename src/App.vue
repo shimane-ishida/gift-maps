@@ -1,29 +1,27 @@
 <template>
     <div id=app>
-      <div class="header">
+      <div class="container">
         <csvhead v-on:child-event="parentMethod"></csvhead>
         <jsonhead v-on:child-event="parentMethod"></jsonhead>
-        <div class="_header">
+      </div>
+      <div class="container">
+        <div class="list">
           <label for="search_box">名称検索：</label>
           <input type="text" id="search_box" v-model="searchWord">
           <input type="button" value="クリア" v-on:click="searchClear">
-          {{ msg }}
+          <p>{{ msg }}</p>
+          <table>
+            <tr>
+              <th>名称</th>
+              <th>コンテンツ</th>
+            </tr>
+            <tr v-for="(val) in items" v-bind:key="val.id">
+              <td>{{ val.title }}</td>
+              <td ><span v-html="val.title"></span></td>
+            </tr>
+          </table>
         </div>
-      </div>
-      <div class="list">
-        <table>
-          <tr>
-            <th>名称</th>
-            <th>コンテンツ</th>
-          </tr>
-          <tr v-for="(val) in items" v-bind:key="val.id">
-            <td>{{ val.title }}</td>
-            <td ><span v-html="val.title"></span></td>
-          </tr>
-        </table>
-      </div>
-      <div class="main">
-        <div id=map></div>
+      <div id=map></div>
       </div>
     </div>
 </template>
@@ -144,55 +142,41 @@ export default {
 </script>
 
 <style>
-  ._header {
-    float:left;
-    width:45vh;
-    margin: 0px 20px 20px 0px;
-    padding: 10px;
-    background: beige;
-  }
-</style>
-
-<style scope>
-
-html, body, #app{
-  margin: 0;
-  padding: 0;
+.container {
+  display: flex;
+  margin-bottom: 10px;
 }
 
-#map{
+.file_head {
+  background: beige;
+  padding: 20px;
+  margin-right: 10px
+}
+
+.list {
+  background: beige;
+  padding: 20px;
+  margin-right: 10px
+}
+
+#map {
   width: 90%;
   height: calc(100vh - 230px);
-  margin: 10px auto;
-  background: beige;
-}
-
-body { margin: 0; }
-
-.header {
-  width: 90%;
-  margin: 20px auto;
+  margin: 0 auto;
 }
 
 .marker {
-  text-align      : center;
-  color           : white;
-  font-size       : 16;
-  border-radius   : 8px;
-  box-shadow      : 8px 8px 8px rgba( 0, 0, 0, 0.4 );
+  text-align: center;
+  color: white;
+  font-size: 16;
+  border-radius: 8px;
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.4);
 }
 .red {
-  background      : red;
+  background: red;
 }
+
 .bule {
-  background      : blue;
-}
-
-._header> input[type="text"]{
-  padding: 3px;
-}
-
-._header > input[type="button"]{
-  margin-left: 5px;
+  background: blue;
 }
 </style>
