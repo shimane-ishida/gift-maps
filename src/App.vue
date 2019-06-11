@@ -5,21 +5,25 @@
         <jsonhead v-on:child-event="parentMethod"></jsonhead>
       </div>
       <div class="container">
-        <div class="list">
-          <label for="search_box">名称検索：</label>
-          <input type="text" id="search_box" v-model="searchWord">
-          <input type="button" value="クリア" v-on:click="searchClear">
-          <p>{{ msg }}</p>
-          <table>
-            <tr>
-              <th>名称</th>
-              <th>コンテンツ</th>
-            </tr>
-            <tr v-for="(val) in items" v-bind:key="val.id">
-              <td>{{ val.title }}</td>
-              <td ><span v-html="val.title"></span></td>
-            </tr>
-          </table>
+        <div class="menu">
+          <div class="search">
+            <label for="search_box">名称検索：</label>
+            <input type="text" id="search_box" v-model="searchWord">
+            <input type="button" value="クリア" v-on:click="searchClear">
+            <p>検索結果：{{ msg }}</p>
+          </div>
+          <div class="tbl-01">
+            <table class="tbl">
+              <tr>
+                <th>名称</th>
+                <th>コンテンツ</th>
+              </tr>
+              <tr v-for="(val) in items" v-bind:key="val.id">
+                <td>{{ val.title }}</td>
+                <td ><span v-html="val.title"></span></td>
+              </tr>
+            </table>
+          </div>
         </div>
       <div id=map></div>
       </div>
@@ -30,8 +34,8 @@
 
 import csvhead from './components/csvhead'
 import jsonhead from './components/jsonhead'
-import  'leaflet/dist/leaflet.css'
-import  L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
 import Underscore from 'underscore'
 
 export default {
@@ -78,7 +82,7 @@ export default {
       addLayer: function(data = this.latlng){
         if(data.length === 0) {
           this.items = this.latlng;
-          this.msg = "検索結果：N/A";
+          this.msg = "N/A";
           return;
         }
         this.items = data;
@@ -126,7 +130,7 @@ export default {
       findBy: function(query){
         if(query === '') return;
         const result = Underscore._.filter(this.latlng,{title:query});
-        this.msg = '検索結果：' + result.length;
+        this.msg = result.length;
         this.clearLayers();
         this.addLayer(result);
       },
@@ -149,13 +153,28 @@ export default {
 .file_head {
   background: beige;
   padding: 20px;
-  margin-right: 10px
+  margin-right: 20px
 }
 
-.list {
+.menu {
+  flex-wrap: wrap;
+}
+
+.search > input[type="button"]{
+  float: right;
+  margin-top: 10px;
+}
+
+.search {
   background: beige;
-  padding: 20px;
-  margin-right: 10px
+  padding: 10px 20px 5px 20px;
+  margin-right: 20px;
+}
+
+.search input[type="text"]{
+  padding: 3px;
+  width: 90%;
+  margin: 0px 0px 0px 0px;
 }
 
 #map {
@@ -178,4 +197,26 @@ export default {
 .bule {
   background: blue;
 }
+
+table {
+  margin: 20px auto;
+}
+
+.tbl-01 {
+  height: calc(100vh - 340px);
+  overflow: auto;
+}
+
+.tbl th {
+  background: #686866;
+  border: solid 1px #ccc;
+  color: #fff;
+  padding: 10px;
+}
+
+.tbl td {
+  border: solid 1px #ccc;
+  padding: 10px;
+}
+
 </style>
