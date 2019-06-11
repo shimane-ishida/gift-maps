@@ -10,7 +10,6 @@ export default {
     fileChange: function(e) {
       const file = e.target.files[0];
       const reader = new FileReader();
-      const workers = [];
       const loadFunc = () => {
         this.$emit('child-event', reader.result);
       };

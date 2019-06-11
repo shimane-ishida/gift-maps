@@ -15,10 +15,12 @@
           <div class="tbl-01">
             <table class="tbl">
               <tr>
+                <th>No.</th>
                 <th>名称</th>
                 <th>コンテンツ</th>
               </tr>
-              <tr v-for="(val) in items" v-bind:key="val.id">
+              <tr v-for="(val,index) in items" v-bind:key="val.id">
+                <td class="links" v-on:click='openPop(val)'>{{ index + 1 }}</td>
                 <td>{{ val.title }}</td>
                 <td ><span v-html="val.title"></span></td>
               </tr>
@@ -139,6 +141,17 @@ export default {
         this.searchWord = '';
         this.clearLayers();
         this.addLayer();
+      },
+      openPop:function (data){
+        this.map.setView(
+          [data.lat,data.lng],
+          12,
+          {
+            animate:true,
+            duration:1.5,
+            easeLinearity:1.0,
+          }
+        );
       }
     }
 }
@@ -218,5 +231,8 @@ table {
   border: solid 1px #ccc;
   padding: 10px;
 }
-
+.links {
+  text-decoration: underline;
+  cursor : pointer;
+}
 </style>
