@@ -3,13 +3,28 @@
       <div class="header">
         <csvhead v-on:child-event="parentMethod"></csvhead>
         <jsonhead v-on:child-event="parentMethod"></jsonhead>
-        <div class="search-form">
+        <div class="_header">
           <label for="search_box">名称検索：</label>
           <input type="text" id="search_box" v-model="searchWord">
           <input type="button" value="クリア" v-on:click="searchClear">
+          {{ msg }}
         </div>
       </div>
-      <div id=map></div>
+      <div class="list">
+        <table>
+          <tr>
+            <th>名称</th>
+            <th>コンテンツ</th>
+          </tr>
+          <tr v-for="(val) in items" v-bind:key="val.id">
+            <td>{{ val.title }}</td>
+            <td ><span v-html="val.title"></span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="main">
+        <div id=map></div>
+      </div>
     </div>
 </template>
 
@@ -26,9 +41,11 @@ export default {
     data: function(){
       return {
         map: null,
-        markerLayer:  L.featureGroup(),
+        markerLayer: L.featureGroup(),
+        items: null,
         latlng: null,
         searchWord: '',
+        msg:'',
       }
     },
     mounted() {
@@ -62,7 +79,12 @@ export default {
         this.addLayer();
       },
       addLayer: function(data = this.latlng){
-        if(data.length === 0) return;
+        if(data.length === 0) {
+          this.items = this.latlng;
+          this.msg = "検索結果：N/A";
+          return;
+        }
+        this.items = data;
         data.forEach(e => {
           let marker = L.marker([e.lat, e.lng],
             { 
@@ -76,7 +98,7 @@ export default {
               ),
             }
           )
-          marker.bindPopup(e.title);
+          marker.bindPopup("名称:"+e.title + "<br />本文：" + e.contents);
           marker.on('mouseover',function(){ marker.openPopup(); }); // マウスオーバー
           marker.on('mouseout', function() { marker.closePopup(); }); // マウスアウト
           this.markerLayer.addLayer(marker);
@@ -107,10 +129,12 @@ export default {
       findBy: function(query){
         if(query === '') return;
         const result = Underscore._.filter(this.latlng,{title:query});
+        this.msg = '検索結果：' + result.length;
         this.clearLayers();
         this.addLayer(result);
       },
       searchClear: function(){
+        this.msg = '';
         this.searchWord = '';
         this.clearLayers();
         this.addLayer();
@@ -119,8 +143,17 @@ export default {
 }
 </script>
 
-
 <style>
+  ._header {
+    float:left;
+    width:45vh;
+    margin: 0px 20px 20px 0px;
+    padding: 10px;
+    background: beige;
+  }
+</style>
+
+<style scope>
 
 html, body, #app{
   margin: 0;
@@ -155,19 +188,11 @@ body { margin: 0; }
   background      : blue;
 }
 
-.search-form {
-  float:left;
-  width:50vh;
-  margin: 0px 20px 20px 0px;
-  padding: 10px;
-  background: beige;
-  display: inline-flex;
-}
-.search-form > input[type="text"]{
+._header> input[type="text"]{
   padding: 3px;
 }
 
-.search-form > input[type="button"]{
+._header > input[type="button"]{
   margin-left: 5px;
 }
 </style>

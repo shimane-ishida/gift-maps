@@ -1,5 +1,5 @@
 <template>
-  <div class="csv_header">
+  <div class="_header">
     <h1>CSVインポート</h1>
     <input @change="fileChange" type="file" id="file_input_expense" name="file_input_expense" accept="text/csv">
   </div>
@@ -33,12 +33,3 @@ export default {
   }
 };
 </script>
-<style>
-  .csv_header {
-    float:left;
-    width:30vh;
-    margin: 0px 20px 20px 0px;
-    padding: 10px;
-    background: beige;
-  }
-</style>
