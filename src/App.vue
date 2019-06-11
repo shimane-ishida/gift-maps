@@ -32,7 +32,6 @@ import csvhead from './components/csvhead'
 import jsonhead from './components/jsonhead'
 import  'leaflet/dist/leaflet.css'
 import  L from 'leaflet'
-import { log } from 'util';
 import Underscore from 'underscore'
 
 export default {
